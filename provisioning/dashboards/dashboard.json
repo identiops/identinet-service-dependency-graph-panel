@@ -94,7 +94,7 @@
       },
       "pluginVersion": "1.0.0",
       "title": "Panel Title",
-      "type": "service-dependency-graph-panel"
+      "type": "identiops-service-dependency-graph-panel"
     }
   ],
   "refresh": "",
@@ -110,7 +110,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Provisioned service-dependency-graph-panel dashboard",
+  "title": "Provisioned identiops-service-dependency-graph-panel dashboard",
   "version": 0,
   "weekStart": ""
 }

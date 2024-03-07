@@ -1,7 +1,7 @@
 ## Service Dependency Graph Panel
 
-[![Downloads](https://img.shields.io/badge/dynamic/json?color=orange&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22service-dependency-graph-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/service-dependency-graph-panel)
-[![License](https://img.shields.io/github/license/identiops/service-dependency-graph-panel)](LICENSE)
+[![Downloads](https://img.shields.io/badge/dynamic/json?color=orange&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22identiops-service-dependency-graph-panel%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/service-dependency-graph-panel)
+[![License](https://img.shields.io/github/license/identiops/identiops-service-dependency-graph-panel)](LICENSE)
 
 
 ![SDG_PRESENTATION](https://user-images.githubusercontent.com/53812669/173822816-da6791ec-c785-435b-a235-21ead3ebd4e1.gif)
@@ -18,7 +18,7 @@ visualize the processes of your application much better.
 
 
 ### Updating the Service Dependency Graph Panel
-The file structure for the icon mapping has changed for version 4.0.0. **Icons are now located in the path 'plugins/service-dependency-graph-panel/assets/icons/'.** This also applies to custom icons!
+The file structure for the icon mapping has changed for version 4.0.0. **Icons are now located in the path 'plugins/identiops-service-dependency-graph-panel/assets/icons/'.** This also applies to custom icons!
 
 ___
 
@@ -28,7 +28,7 @@ ___
 
 If you want to get a first impression of this panel without having your own data source yet, the panels provides you some dummy data to play around with.
 
-The dummy data is basically a snapshot of multiple query results in the table format. You'll find its source [here](https://github.com/identiops/service-dependency-graph-panel/blob/master/src/dummy_data_frame.ts), in the panel's GitHub repository.
+The dummy data is basically a snapshot of multiple query results in the table format. You'll find its source [here](https://github.com/identiops/identiops-service-dependency-graph-panel/blob/master/src/dummy_data_frame.ts), in the panel's GitHub repository.
 
 Depending on the query result, the data provides the following tags:
 * **service**: The service (application) the data is related to.
@@ -94,7 +94,7 @@ If the previously described requirements are respected, a minimal table can be a
 
 Assuming the panel's settings are specified as seen in the screenshot, the panel will visualize the data as following:
 
-![Visualization of the minimal data table.](https://raw.githubusercontent.com/identops/service-dependency-graph-panel/master/src/img/data-example-1.png)
+![Visualization of the minimal data table.](https://raw.githubusercontent.com/identops/identiops-service-dependency-graph-panel/master/src/img/data-example-1.png)
 
 > Note: It is important to know that connections can only be generated if at least one request-rate column (incoming or outgoing) is defined.
 
@@ -110,7 +110,7 @@ In this example, we extend the data table of example 1 by another column, repres
 
 Now, the panel's `Data Mappings` option `Response Time Column` is set to `resp_time`. This specifies that the value in the `resp_time` column should be handled as the response time for a connection. By default, the values in this column will be handled as a sum of all response times - kind of a Prometheus style metric. This behavior can be changed by using the `Handle Timings as Sums` option. This table will result in the following visualization.
 
-![Visualization of a data table including request rate and response times.](https://raw.githubusercontent.com/identiops/service-dependency-graph-panel/master/src/img/data-example-2.png)
+![Visualization of a data table including request rate and response times.](https://raw.githubusercontent.com/identiops/identiops-service-dependency-graph-panel/master/src/img/data-example-2.png)
 
 ___
 
@@ -121,7 +121,7 @@ For this purpose the option 'Service Icon Mapping' can be used.
 Here you can specify an assignment of icons to certain name patterns.
 All nodes that match the specified pattern (regular expression) will get the icon.
 
-![Custom service icons in the graph.](https://raw.githubusercontent.com/identops/service-dependency-graph-panel/master/src/img/service-icons.png)
+![Custom service icons in the graph.](https://raw.githubusercontent.com/identops/identiops-service-dependency-graph-panel/master/src/img/service-icons.png)
 
 ##### Example
 

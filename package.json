@@ -1,5 +1,5 @@
 {
-  "name": "service-dependency-graph-panel",
+  "name": "identiops-service-dependency-graph-panel",
   "version": "1.0.2",
   "description": "Service Dependency Graph panel for Grafana",
   "main": "src/module.js",
@@ -24,7 +24,7 @@
     "service-dependency-graph",
     "topology"
   ],
-  "repository": "github:grafana/identiops/service-dependency-graph-panel",
+  "repository": "github:grafana/identiops/identiops-service-dependency-graph-panel",
   "contributors":
   [
     {
@@ -39,7 +39,7 @@
   "license": "Apache-2.0",
   "bugs":
   {
-    "url": "https://github.com/identiops/service-dependency-graph-panel/issues",
+    "url": "https://github.com/identiops/identiops-service-dependency-graph-panel/issues",
     "email": "plugins@identinet.io"
   },
   "devDependencies":

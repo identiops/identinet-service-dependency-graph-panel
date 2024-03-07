@@ -1,6 +1,6 @@
 import React from 'react';
 import { NodeStatistics } from './NodeStatistics';
-import '../../css/service-dependency-graph-panel.css';
+import '../../css/identiops-service-dependency-graph-panel.css';
 import './Statistics.css';
 import { IntSelectionStatistics, TableContent } from 'types';
 import roundPercentageToDecimal from './utils/Utils';

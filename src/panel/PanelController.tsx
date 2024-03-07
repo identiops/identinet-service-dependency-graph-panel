@@ -11,13 +11,13 @@ import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependen
 import _ from 'lodash';
 import { CurrentData, CyData, IntGraph, IntGraphEdge, IntGraphNode, PanelSettings } from '../types';
 import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
-import '../css/service-dependency-graph-panel.css';
+import '../css/identiops-service-dependency-graph-panel.css';
 import GraphGenerator from 'processing/graph_generator';
 import PreProcessor from 'processing/pre_processor';
 import data from '../dummy_data_frame';
 import { getTemplateSrv } from '@grafana/runtime';
 
-interface Props extends PanelProps<PanelSettings> {}
+interface Props extends PanelProps<PanelSettings> { }
 
 interface PanelState {
   id: string | number;
@@ -226,7 +226,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
       return (
         <div>
           <div
-            className="service-dependency-graph-panel"
+            className="identiops-service-dependency-graph-panel"
             style={{ height: this.props.height, width: this.props.width }}
             ref={this.ref}
             id="cy"
