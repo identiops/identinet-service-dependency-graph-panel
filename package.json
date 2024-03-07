@@ -1,6 +1,6 @@
 {
   "name": "identiops-service-dependency-graph-panel",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Service Dependency Graph panel for Grafana",
   "main": "src/module.js",
   "scripts":
