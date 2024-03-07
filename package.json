@@ -1,5 +1,5 @@
 {
-  "name": "novatec-service-dependency-graph-panel",
+  "name": "service-dependency-graph-panel",
   "version": "4.1.1",
   "description": "Service Dependency Graph panel for Grafana",
   "main": "src/module.js",
