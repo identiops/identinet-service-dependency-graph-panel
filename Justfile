@@ -55,5 +55,5 @@ release LEVEL="patch":
     git commit -m $"Bump version to ($new_version)"
     git tag -s -m $"v($new_version)" $"v($new_version)"
     git push --atomic origin refs/heads/main $"refs/tags/v($new_version)"
-    let archive = $"dist/(open src/plugin.json | $in.id)-(open src/plugin.json | $in.info.version).zip"
-    git cliff --strip all --current | gh release create -F - $new_version $archive
+    # let archive = $"dist/(open src/plugin.json | $in.id)-(open src/plugin.json | $in.info.version).zip"
+    # git cliff --strip all --current | gh release create -F - $new_version $archive
