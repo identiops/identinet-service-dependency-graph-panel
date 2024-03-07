@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2024-03-07
+
+### Miscellaneous Tasks
+
+- Disable GH workflows
+
 ## [1.0.3] - 2024-03-07
 
 ### Miscellaneous Tasks
