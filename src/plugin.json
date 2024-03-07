@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
   "name": "Service Dependency Graph",
   "id": "service-dependency-graph-panel",
@@ -11,6 +12,7 @@
       "url": "https://www.identinet.io/"
     },
     "keywords": [
+      "panel",
       "grafana",
       "plugin",
       "service-dependency-graph",
@@ -38,7 +40,7 @@
     ]
   },
   "dependencies": {
-    "grafanaDependency": ">=7.1.0",
+    "grafanaDependency": ">=10.3.3",
     "plugins": []
   }
 }
