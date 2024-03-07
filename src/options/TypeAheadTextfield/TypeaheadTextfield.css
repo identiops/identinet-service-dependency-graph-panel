@@ -1,15 +1,15 @@
 .suggestion {
-    width: 100%;
-    border-right: 1px solid #3865AB ;
-    border-left: 1px solid #3865AB ;
-    background-color: #0B0C0E;
-    padding-left: 10px;
+  width: 100%;
+  border-right: 1px solid #3865ab;
+  border-left: 1px solid #3865ab;
+  background-color: #0b0c0e;
+  padding-left: 10px;
 }
 
 ul {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 ul:last-child {
-    border-bottom: 1px solid #3865AB ;
+  border-bottom: 1px solid #3865ab;
 }

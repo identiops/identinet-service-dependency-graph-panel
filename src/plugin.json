@@ -11,13 +11,7 @@
       "name": "identinet GmbH",
       "url": "https://www.identinet.io/"
     },
-    "keywords": [
-      "panel",
-      "grafana",
-      "plugin",
-      "service-dependency-graph",
-      "topology"
-    ],
+    "keywords": ["panel", "grafana", "plugin", "service-dependency-graph", "topology"],
     "logos": {
       "small": "img/novatec_sdg_panel_logo.svg",
       "large": "img/novatec_sdg_panel_logo.svg"

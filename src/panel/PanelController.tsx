@@ -17,7 +17,7 @@ import PreProcessor from 'processing/pre_processor';
 import data from '../dummy_data_frame';
 import { getTemplateSrv } from '@grafana/runtime';
 
-interface Props extends PanelProps<PanelSettings> { }
+interface Props extends PanelProps<PanelSettings> {}
 
 interface PanelState {
   id: string | number;

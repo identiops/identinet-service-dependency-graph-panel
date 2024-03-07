@@ -23,7 +23,16 @@
     "topology"
   ],
   "repository": "github:grafana/identiops/service-dependency-graph-panel",
-  "contributors": [ {"name": "identinet GmbH", "url": "https://identiops.com" }, {"name": "Novatec GmbH", "url": "https://www.novatec-gmbh.de/"} ],
+  "contributors": [
+    {
+      "name": "identinet GmbH",
+      "url": "https://identiops.com"
+    },
+    {
+      "name": "Novatec GmbH",
+      "url": "https://www.novatec-gmbh.de/"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/identiops/service-dependency-graph-panel/issues",
