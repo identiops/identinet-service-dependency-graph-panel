@@ -1,0 +1,116 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "grafana"
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "dataMapping": {
+          "aggregationType": "service",
+          "baselineRtUpper": "threshold",
+          "errorRateColumn": "error_in",
+          "errorRateOutgoingColumn": "error_out",
+          "extOrigin": "origin_external",
+          "extTarget": "target_external",
+          "requestRateColumn": "in_count",
+          "requestRateOutgoingColumn": "out_count",
+          "responseTimeColumn": "in_timesum",
+          "responseTimeOutgoingColumn": "out_timesum",
+          "showDummyData": true,
+          "sourceColumn": "origin_service",
+          "targetColumn": "target_service",
+          "type": "protocol"
+        },
+        "drillDownLink": "",
+        "externalIcons": [
+          {
+            "filename": "web",
+            "pattern": "web"
+          },
+          {
+            "filename": "message",
+            "pattern": "jms"
+          },
+          {
+            "filename": "database",
+            "pattern": "jdbc"
+          },
+          {
+            "filename": "http",
+            "pattern": "http"
+          }
+        ],
+        "filterEmptyConnections": true,
+        "icons": [
+          {
+            "filename": "java",
+            "pattern": "java"
+          },
+          {
+            "filename": "star_trek",
+            "pattern": "spok|star trek"
+          }
+        ],
+        "showBaselines": false,
+        "showConnectionStats": true,
+        "showDebugInformation": false,
+        "style": {
+          "dangerColor": "rgb(196, 22, 42)",
+          "healthyColor": "rgb(87, 148, 242)",
+          "noDataColor": "rgb(123, 123, 138)"
+        },
+        "sumTimings": true,
+        "timeFormat": "m"
+      },
+      "pluginVersion": "1.0.0",
+      "title": "Panel Title",
+      "type": "service-dependency-graph-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Provisioned service-dependency-graph-panel dashboard",
+  "version": 0,
+  "weekStart": ""
+}

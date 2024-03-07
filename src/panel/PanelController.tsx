@@ -11,13 +11,13 @@ import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependen
 import _ from 'lodash';
 import { CurrentData, CyData, IntGraph, IntGraphEdge, IntGraphNode, PanelSettings } from '../types';
 import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
-import '../css/novatec-service-dependency-graph-panel.css';
+import '../css/service-dependency-graph-panel.css';
 import GraphGenerator from 'processing/graph_generator';
 import PreProcessor from 'processing/pre_processor';
 import data from '../dummy_data_frame';
 import { getTemplateSrv } from '@grafana/runtime';
 
-interface Props extends PanelProps<PanelSettings> {}
+interface Props extends PanelProps<PanelSettings> { }
 
 interface PanelState {
   id: string | number;

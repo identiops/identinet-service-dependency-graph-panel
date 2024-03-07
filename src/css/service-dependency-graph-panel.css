@@ -19,9 +19,9 @@
 }
 
 .canvas-container {
-   width: 100%;
-   height: 100%;
-   overflow: hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .zoom-button-container {
@@ -36,7 +36,6 @@
   flex-basis: 0;
   transition: flex-basis 250ms ease-in-out;
   overflow-y: scroll;
-  
 }
 
 .statistics.show {
@@ -59,7 +58,7 @@
   padding-bottom: 0.5rem;
 }
 
-.no-data--selection{
+.no-data--selection {
   color: #888888;
   text-align: center;
 }
@@ -69,7 +68,8 @@
   table-layout: fixed;
 }
 
-.table--selection th, .table--selection td {
+.table--selection th,
+.table--selection td {
   padding: 3px 5px;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .threshold--bad {
-  color:#f2495c;
+  color: #f2495c;
 }
 
 .threshold--good {
@@ -108,5 +108,3 @@
 .width-100 {
   width: 100%;
 }
-
-

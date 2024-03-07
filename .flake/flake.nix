@@ -30,8 +30,8 @@
           gh # GitHub CLI https://cli.github.com/
           git-cliff # Changelog generator https://github.com/orhun/git-cliff
           just # Simple make replacement https://just.systems/
-          old.nodejs_16 # node used for husky installation https://nodejs.org/en/
-          # nodejs_20
+          # old.nodejs_16 # node used for husky installation https://nodejs.org/en/
+          nodejs_20
           unstable.nushell # Nu Shell https://www.nushell.sh/
           python-with-my-packages
         ];
