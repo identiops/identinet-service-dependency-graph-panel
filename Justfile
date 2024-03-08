@@ -22,6 +22,7 @@ build-dev:
 build-prod:
     #!/usr/bin/env nu
     pnpm run build
+    pnpm run sign --rootUrls https://identiops.com
     let id = (open src/plugin.json | $in.id)
     let archive = $"($id)-(open src/plugin.json | $in.info.version).zip"
     mv dist $id
