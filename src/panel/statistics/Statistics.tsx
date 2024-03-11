@@ -1,6 +1,6 @@
 import React from 'react';
 import { NodeStatistics } from './NodeStatistics';
-import '../../css/identiops-service-dependency-graph-panel.css';
+import '../../css/identinet-service-dependency-graph-panel.css';
 import './Statistics.css';
 import { IntSelectionStatistics, TableContent } from 'types';
 import roundPercentageToDecimal from './utils/Utils';
@@ -80,7 +80,7 @@ export const Statistics: React.FC<StatisticsProps> = ({
         Bad ({'>'} {selectionStatistics.threshold}ms)
       </td>
     ) : (
-      <td className="table--td--selection threshold--good"> Good (&lt;= {selectionStatistics.threshold}ms) </td>
+      <td className="table--td--selection threshold--good">Good (&lt;= {selectionStatistics.threshold}ms)</td>
     );
     var baseline =
       showBaselines && selectionStatistics.threshold ? (

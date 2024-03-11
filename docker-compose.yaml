@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   grafana:
-    container_name: 'identiops-service-dependency-graph-panel'
+    container_name: 'identinet-service-dependency-graph-panel'
     platform: 'linux/amd64'
     build:
       context: ./.config
@@ -12,5 +12,5 @@ services:
     ports:
       - 3000:3000/tcp
     volumes:
-      - ./dist:/var/lib/grafana/plugins/identiops-service-dependency-graph-panel
+      - ./dist:/var/lib/grafana/plugins/identinet-service-dependency-graph-panel
       - ./provisioning:/etc/grafana/provisioning
