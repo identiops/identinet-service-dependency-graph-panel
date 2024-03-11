@@ -57,4 +57,7 @@ release LEVEL="patch":
     git tag -s -m $"v($new_version)" $"v($new_version)"
     git push --atomic origin refs/heads/main $"refs/tags/v($new_version)"
     let archive = $"dist/(open src/plugin.json | $in.id)-(open src/plugin.json | $in.info.version).zip"
-    git cliff --strip all --current | gh release create -F - $new_version $archive
+    sha256sum $archive | save $"($archive).sha256sum"
+    sha1sum $archive | save $"($archive).sha1sum"
+    md5sum $archive | save $"($archive).md5sum"
+    git cliff --strip all --current | gh release create -F - $new_version $archive $"($archive).sha256sum" $"($archive).sha1sum" $"($archive).md5sum"
