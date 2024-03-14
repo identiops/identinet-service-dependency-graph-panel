@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { ChangeEvent } from 'react';
 import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import { IconResource, PanelSettings } from '../../types';
@@ -20,6 +21,10 @@ interface State {
 }
 
 export class IconMapping extends React.PureComponent<Props, State> {
+  state: State;
+  // @ts-ignore
+  props: State;
+
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = {
@@ -30,6 +35,7 @@ export class IconMapping extends React.PureComponent<Props, State> {
       .then((response) => response.json())
       .then((data) => {
         data.sort();
+        // @ts-ignore
         this.setState({
           icons: data,
         });
@@ -72,11 +78,12 @@ export class IconMapping extends React.PureComponent<Props, State> {
   render() {
     const { path } = this.state.item;
     const { icons: iconNames } = this.state;
-    var icons = this.state.context.options[path];
+    let icons = this.state.context.options[path];
     if (icons === undefined) {
       icons = this.state.item.defaultValue;
       const context = this.state.context;
       context.options[path] = this.state.item.defaultValue;
+      // @ts-ignore
       this.setState({
         context: context,
       });

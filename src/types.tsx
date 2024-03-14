@@ -1,4 +1,5 @@
 import { DataFrame } from '@grafana/data';
+import cytoscape from "cytoscape";
 
 export interface PanelSettings {
   animate: boolean;

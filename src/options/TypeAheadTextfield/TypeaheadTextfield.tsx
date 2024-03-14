@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 import Autosuggest, { InputProps } from 'react-autosuggest';
 import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
@@ -16,10 +17,15 @@ interface State {
   context: StandardEditorContext<any>;
   suggestions: string[];
 }
+
 export class TypeaheadTextField extends React.PureComponent<Props, State> {
+  state: State;
+  // @ts-ignore
+  props: State;
+
   constructor(props: Props | Readonly<Props>) {
     super(props);
-    var { value } = props;
+    let { value } = props;
     if (value === undefined) {
       value = props.item.defaultValue;
     }
@@ -33,9 +39,9 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     return <div>{suggestion}</div>;
   }
   getColumnNames() {
-    var { data } = this.props.context;
-    var series;
-    var columnNames = [];
+    let { data } = this.props.context;
+    let series;
+    let columnNames = [];
     if (data !== undefined && data.length > 0) {
       series = data[0].fields;
       for (const index in series) {
@@ -54,17 +60,19 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     //TODO make this type nicer!
     const { path } = this.props.item;
     const { value } = event.currentTarget as HTMLInputElement;
+    // @ts-ignore
     this.setState({
       value: value,
     });
     this.props.onChange.call(path, newValue);
   };
   getSuggestions = (value: string) => {
-    var inputValue = '';
+    let inputValue = '';
     if (value !== undefined) {
       return [];
     }
     if (value !== undefined && value !== null && value !== '') {
+      // @ts-ignore
       inputValue = value.trim().toLowerCase();
     }
     const inputLength = inputValue.length;
@@ -74,6 +82,7 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     return this.getColumnNames().filter((columnName) => columnName.toLowerCase().startsWith(inputValue));
   };
   onSuggestionsFetchRequested = (value: any) => {
+    // @ts-ignore
     this.setState({
       suggestions: this.getSuggestions(value),
     });
@@ -82,12 +91,13 @@ export class TypeaheadTextField extends React.PureComponent<Props, State> {
     return suggestion;
   };
   onSuggestionsClearRequested = () => {
+    // @ts-ignore
     this.setState({
       suggestions: [],
     });
   };
   render() {
-    var { value } = this.props;
+    let { value } = this.props;
     if (value === undefined) {
       value = this.props.item.defaultValue;
     }

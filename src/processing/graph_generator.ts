@@ -29,7 +29,7 @@ class GraphGenerator {
 
     const sumMetrics = this.controller.getSettings(true).sumTimings;
 
-    var nodeName = dataElements[0].target;
+    let nodeName = dataElements[0].target;
     if (nodeName === '' || nodeName === undefined || nodeName === null) {
       nodeName = 'undefined';
     }
@@ -57,9 +57,11 @@ class GraphGenerator {
     const namespaceElement = dataElements.find((el) => el.namespace !== undefined);
     if (namespaceElement) {
       const namespace = namespaceElement.namespace;
-      node.data.namespace = namespace;
-      node.data.layer = namespace.length;
-      node.data.parent = namespace[namespace.length - 1];
+      if (namespace !== undefined) {
+        node.data.namespace = namespace;
+        node.data.layer = namespace.length;
+        node.data.parent = namespace[namespace.length - 1];
+      }
       this._updateMaxLayer(node.data.layer);
     }
 
@@ -140,7 +142,7 @@ class GraphGenerator {
       } else {
         nodeType = EnGraphNodeType.INTERNAL;
       }
-      var value: IntGraphNode = {
+      let value: IntGraphNode = {
         data: {
           id: name,
           type: nodeType,
@@ -156,7 +158,7 @@ class GraphGenerator {
   }
 
   _createNodes(data: GraphDataElement[]): IntGraphNode[] {
-    var tree = new NodeTree();
+    let tree = new NodeTree();
     const filteredData = _.filter(
       data,
       (dataElement) =>
@@ -185,7 +187,7 @@ class GraphGenerator {
   }
 
   _createEdge(dataElement: GraphDataElement): IntGraphEdge | undefined {
-    var { source, target } = dataElement;
+    let { source, target } = dataElement;
     if (source === undefined || target === undefined) {
       console.error('source and target are necessary to create an edge', dataElement);
       return undefined;
@@ -232,10 +234,10 @@ class GraphGenerator {
   }
 
   _resolveEdgeMap(edges: IntGraphEdge[]) {
-    var edgeMap: Map<string, IntGraphEdge[]> = new Map();
+    let edgeMap: Map<string, IntGraphEdge[]> = new Map();
     edges.forEach((edge) => {
       if (edgeMap.get(edge.source + '-' + edge.target)) {
-        edgeMap.get(edge.source + '-' + edge.target).push(edge);
+        edgeMap.get(edge.source + '-' + edge.target)?.push(edge);
       } else {
         edgeMap.set(edge.source + '-' + edge.target, [edge]);
       }
@@ -244,11 +246,11 @@ class GraphGenerator {
   }
 
   _mergeArrayOfEdges(edges: IntGraphEdge[]) {
-    var errorRateCounter = 0;
-    var rateCounter = 0;
-    var responseTimeCounter = 0;
-    var successRateCounter = 0;
-    var thresholdCounter = 0;
+    let errorRateCounter = 0;
+    let rateCounter = 0;
+    let responseTimeCounter = 0;
+    let successRateCounter = 0;
+    let thresholdCounter = 0;
 
     const mergedEdge: IntGraphEdge = {
       target: '',
@@ -268,31 +270,31 @@ class GraphGenerator {
         mergedEdge.target = edge.target;
         mergedEdge.data.target = edge.data.target;
       }
-      if (edge.data.metrics.error_rate) {
+      if (mergedEdge.data.metrics !== undefined && edge.data.metrics !== undefined && edge.data.metrics.error_rate) {
         mergedEdge.data.metrics.error_rate = mergedEdge.data.metrics.error_rate
           ? mergedEdge.data.metrics.error_rate + edge.data.metrics.error_rate
           : (mergedEdge.data.metrics.error_rate = edge.data.metrics.error_rate);
         errorRateCounter++;
       }
-      if (edge.data.metrics.rate) {
+      if (mergedEdge.data.metrics !== undefined && edge.data.metrics !== undefined && edge.data.metrics.rate) {
         mergedEdge.data.metrics.rate = mergedEdge.data.metrics.rate
           ? mergedEdge.data.metrics.rate + edge.data.metrics.rate
           : (mergedEdge.data.metrics.rate = edge.data.metrics.rate);
         rateCounter++;
       }
-      if (edge.data.metrics.response_time) {
+      if (mergedEdge.data.metrics !== undefined && edge.data.metrics !== undefined && edge.data.metrics.response_time) {
         mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time
           ? mergedEdge.data.metrics.response_time + edge.data.metrics.response_time
           : (mergedEdge.data.metrics.response_time = edge.data.metrics.response_time);
         responseTimeCounter++;
       }
-      if (edge.data.metrics.success_rate) {
+      if (mergedEdge.data.metrics !== undefined && edge.data.metrics !== undefined && edge.data.metrics.success_rate) {
         mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate
           ? mergedEdge.data.metrics.success_rate + edge.data.metrics.success_rate
           : (mergedEdge.data.metrics.success_rate = edge.data.metrics.success_rate);
         successRateCounter++;
       }
-      if (edge.data.metrics.threshold) {
+      if (mergedEdge.data.metrics !== undefined && edge.data.metrics !== undefined && edge.data.metrics.threshold) {
         mergedEdge.data.metrics.threshold = mergedEdge.data.metrics.threshold
           ? mergedEdge.data.metrics.threshold + edge.data.metrics.threshold
           : (mergedEdge.data.metrics.threshold = edge.data.metrics.threshold);
@@ -300,19 +302,19 @@ class GraphGenerator {
       }
     });
 
-    if (mergedEdge.data.metrics.error_rate) {
+    if (mergedEdge.data.metrics !== undefined && mergedEdge.data.metrics.error_rate) {
       mergedEdge.data.metrics.error_rate = mergedEdge.data.metrics.error_rate / errorRateCounter;
     }
-    if (mergedEdge.data.metrics.rate) {
+    if (mergedEdge.data.metrics !== undefined && mergedEdge.data.metrics.rate) {
       mergedEdge.data.metrics.rate = mergedEdge.data.metrics.rate / rateCounter;
     }
-    if (mergedEdge.data.metrics.response_time) {
+    if (mergedEdge.data.metrics !== undefined && mergedEdge.data.metrics.response_time) {
       mergedEdge.data.metrics.response_time = mergedEdge.data.metrics.response_time / responseTimeCounter;
     }
-    if (mergedEdge.data.metrics.success_rate) {
+    if (mergedEdge.data.metrics !== undefined && mergedEdge.data.metrics.success_rate) {
       mergedEdge.data.metrics.success_rate = mergedEdge.data.metrics.success_rate / successRateCounter;
     }
-    if (mergedEdge.data.metrics.threshold) {
+    if (mergedEdge.data.metrics !== undefined && mergedEdge.data.metrics.threshold) {
       mergedEdge.data.metrics.threshold = mergedEdge.data.metrics.threshold / thresholdCounter;
     }
 
@@ -320,7 +322,7 @@ class GraphGenerator {
   }
 
   _edgeMapToMergedEdges(edgeMap: Map<string, IntGraphEdge[]>) {
-    var edges: IntGraphEdge[] = [];
+    let edges: IntGraphEdge[] = [];
     for (const entry of edgeMap.values()) {
       edges.push(this._mergeArrayOfEdges(entry));
     }

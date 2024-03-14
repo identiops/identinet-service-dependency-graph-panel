@@ -94,7 +94,7 @@
       },
       "pluginVersion": "1.0.0",
       "title": "Panel Title",
-      "type": "identinet-service-dependency-graph-panel"
+      "type": "identinet-sdg-panel"
     }
   ],
   "refresh": "",
@@ -110,7 +110,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Provisioned identinet-service-dependency-graph-panel dashboard",
+  "title": "Provisioned identinet-sdg-panel dashboard",
   "version": 0,
   "weekStart": ""
 }

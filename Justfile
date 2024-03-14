@@ -48,6 +48,8 @@ release LEVEL="patch":
     input -s $"Version will be bumped from ($current_version) to ($new_version).\nPress enter to confirm.\n"
     open package.json | upsert version $new_version | save -f package.json
     open src/plugin.json | upsert info.version $new_version | save -f src/plugin.json
+    open src/plugin.json | upsert info.version $new_version | save -f src/plugin.json
+    open provisioning/dashboards/dashboard.json | upsert panels.0.pluginVersion $new_version | save -f provisioning/dashboards/dashboard.json
     just build-prod
     git add package.json
     git add src/plugin.json

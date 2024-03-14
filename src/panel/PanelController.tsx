@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { LegacyRef, PureComponent } from 'react';
 import {
   AbsoluteTimeRange,
@@ -8,16 +9,18 @@ import {
   TimeRange,
 } from '@grafana/data';
 import { ServiceDependencyGraph } from './serviceDependencyGraph/ServiceDependencyGraph';
+// @ts-ignore
 import _ from 'lodash';
 import { CurrentData, CyData, IntGraph, IntGraphEdge, IntGraphNode, PanelSettings } from '../types';
+// @ts-ignore
 import cytoscape, { EdgeSingular, NodeSingular } from 'cytoscape';
-import '../css/identinet-service-dependency-graph-panel.css';
+import '../css/identinet-sdg-panel.css';
 import GraphGenerator from 'processing/graph_generator';
 import PreProcessor from 'processing/pre_processor';
 import data from '../dummy_data_frame';
 import { getTemplateSrv } from '@grafana/runtime';
 
-interface Props extends PanelProps<PanelSettings> {}
+interface Props extends PanelProps<PanelSettings> { }
 
 interface PanelState {
   id: string | number;
@@ -39,21 +42,27 @@ interface PanelState {
 
 export class PanelController extends PureComponent<Props, PanelState> {
   cy: cytoscape.Core | undefined;
+  state: PanelState;
+  // @ts-ignore
+  props: PanelState;
 
   ref: LegacyRef<HTMLDivElement>;
 
+  // @ts-ignore
   validQueryTypes: boolean;
 
   graphGenerator: GraphGenerator;
 
   preProcessor: PreProcessor;
 
+  // @ts-ignore
   currentData: CurrentData;
 
   maxLayer = 0;
 
   constructor(props: Props) {
     super(props);
+    // @ts-ignore
     this.state = {
       currentLayer: 0,
       ...props,
@@ -86,7 +95,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   resolveTemplateVars(input: any, copy: boolean) {
-    var value = input;
+    let value = input;
     if (copy) {
       value = _.cloneDeep(value);
     }
@@ -114,7 +123,7 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   hasOnlyTableQueries(inputData: DataFrame[]) {
-    var result = true;
+    let result = true;
 
     _.each(inputData, (dataElement) => {
       if (!_.has(dataElement, 'columns')) {
@@ -126,7 +135,8 @@ export class PanelController extends PureComponent<Props, PanelState> {
   }
 
   processData() {
-    var inputData: DataFrame[] = this.props.data.series;
+    // @ts-ignore
+    let inputData: DataFrame[] = this.props.data.series;
     if (this.getSettings(true).dataMapping.showDummyData) {
       inputData = data;
     }
@@ -210,10 +220,11 @@ export class PanelController extends PureComponent<Props, PanelState> {
   layer(layerIncrease: number) {
     const that = this;
     const currentLayer = that.state ? that.state.currentLayer : 0;
-    var layer = Math.max(0, currentLayer + layerIncrease);
+    let layer = Math.max(0, currentLayer + layerIncrease);
     if (layerIncrease > 0) {
       layer = Math.min(that.maxLayer, currentLayer + layerIncrease);
     }
+    // @ts-ignore
     that.setState({
       currentLayer: layer,
     });
@@ -226,11 +237,12 @@ export class PanelController extends PureComponent<Props, PanelState> {
       return (
         <div>
           <div
-            className="identinet-service-dependency-graph-panel"
+            className="identinet-sdg-panel"
             style={{ height: this.props.height, width: this.props.width }}
             ref={this.ref}
             id="cy"
           >
+            {/* @ts-ignore */}
             <ServiceDependencyGraph
               data={data}
               zoom={1}

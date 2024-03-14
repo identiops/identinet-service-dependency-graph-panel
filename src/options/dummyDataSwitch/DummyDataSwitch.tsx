@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 import { StandardEditorContext, StandardEditorProps } from '@grafana/data';
 import { PanelSettings, DataMapping } from '../../types';
@@ -19,10 +20,14 @@ interface State {
 }
 
 export class DummyDataSwitch extends React.PureComponent<Props, State> {
+  state: State;
+  // @ts-ignore
+  props: Props;
+
   constructor(props: Props | Readonly<Props>) {
     super(props);
 
-    var { dataMapping } = props.context.options;
+    let { dataMapping } = props.context.options;
     if (dataMapping === undefined) {
       dataMapping = props.item.defaultValue;
     }
@@ -52,12 +57,13 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
   };
 
   onChange = () => {
-    var { dataMapping } = this.props.context.options;
+    let { dataMapping } = this.props.context.options;
     const { item } = this.state;
     const { onChange } = this.props;
     const newValue = !dataMapping.showDummyData;
 
     if (newValue) {
+      // @ts-ignore
       this.setState({ dataMapping: dataMapping });
       dataMapping = this.getDummyDataMapping();
     }
@@ -66,7 +72,7 @@ export class DummyDataSwitch extends React.PureComponent<Props, State> {
   };
 
   render() {
-    var { dataMapping } = this.props.context.options;
+    let { dataMapping } = this.props.context.options;
     if (dataMapping === undefined) {
       dataMapping = this.props.item.defaultValue;
       this.props.context.options.dataMapping = this.props.item.defaultValue;

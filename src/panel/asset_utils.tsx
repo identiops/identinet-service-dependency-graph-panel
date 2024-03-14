@@ -3,7 +3,7 @@ import { IconResource } from 'types';
 
 export default {
   getAssetUrl(assetName: string) {
-    var baseUrl = 'public/plugins/identinet-service-dependency-graph-panel';
+    let baseUrl = 'public/plugins/identinet-sdg-panel';
     return baseUrl + '/assets/icons/' + assetName;
   },
 

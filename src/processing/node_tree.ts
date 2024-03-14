@@ -17,11 +17,16 @@ class NodeTree {
   }
 
   getNodesFromLayer(layer: number) {
-    var nodes = this._getNodesFromLayer(this._root, layer, 0);
+    let nodes = this._getNodesFromLayer(this._root, layer, 0);
     nodes.forEach((element) => {
-      if (this._metricMap[element.data.id]) {
+      if (this._metricMap[element.data.id] && element.data.metrics !== undefined) {
         (Object.keys(element.data.metrics) as Array<keyof typeof element.data.metrics>).forEach(
-          (key) => (element.data.metrics[key] = element.data.metrics[key] / this._metricMap[element.data.id][key])
+          (key) => {
+            if (element.data.metrics !== undefined && element.data.metrics[key] !== undefined) {
+              // @ts-ignore
+              element.data.metrics[key] = element.data.metrics[key] / this._metricMap[element.data.id][key];
+            }
+          }
         );
       }
     });
@@ -29,32 +34,40 @@ class NodeTree {
   }
 
   getNamePath(namePath: string[]) {
-    var currentLayer = this._root;
+    let currentLayer = this._root;
+    let failed = false;
     namePath.forEach((element) => {
-      currentLayer = this._getObjectFromArray(currentLayer.children, element);
+      if (!failed) {
+        const node = this._getObjectFromArray(currentLayer.children, element);
+        if (node !== undefined) {
+          currentLayer = node;
+        } else {
+          failed = true;
+        }
+      }
     });
     return currentLayer;
   }
 
   private _getNodesFromLayer(currentNode: NodeTreeElement, layer: number, layerCounter: number): IntGraphNode[] {
-    var children;
+    let children: IntGraphNode[] = [];
     if (layer === layerCounter) {
-      children = currentNode.children.map((element) => element.node);
-      if (currentNode !== this._root) {
+      currentNode.children.map((element) => { if (element.node !== undefined) { children.push(element.node) } });
+      if (currentNode !== this._root && currentNode.node !== undefined) {
         children.push(currentNode.node);
       }
       return children;
     }
     layerCounter++;
     children = _.flatten(currentNode.children.map((element) => this._getNodesFromLayer(element, layer, layerCounter)));
-    if (currentNode !== this._root) {
+    if (currentNode !== this._root && currentNode.node !== undefined) {
       children.push(currentNode.node);
     }
     return children;
   }
 
   private _getNameSpaceFromCurrentLevel(namespace: string[], currentLevel: number) {
-    var nameSpaces = [];
+    let nameSpaces = [];
     for (let i = 0; i < currentLevel; i++) {
       nameSpaces.push(namespace[i]);
     }
@@ -64,13 +77,13 @@ class NodeTree {
   private _sumMetrics(sourceNode: IntGraphNode, targetNode: IntGraphNode): IntGraphMetrics {
     const source = sourceNode.data.metrics;
     const target = targetNode.data.metrics;
-    var metrics: IntGraphMetrics = {};
+    let metrics: IntGraphMetrics = {};
     if (!this._metricMap[targetNode.data.id]) {
       this._metricMap[targetNode.data.id] = {};
     }
-    if (target.rate || source.rate) {
-      metrics.rate = (target.rate ? target.rate : 0) + (source.rate ? source.rate : 0);
-      if (target.rate && source.rate && !isNaN(target.rate) && !isNaN(source.rate)) {
+    if (target?.rate || source?.rate) {
+      metrics.rate = (target?.rate ? target?.rate : 0) + (source?.rate ? source?.rate : 0);
+      if (target?.rate && source?.rate && !isNaN(target?.rate || 0) && !isNaN(source?.rate || 0)) {
         this._metricMap[targetNode.data.id].rate
           ? (this._metricMap[targetNode.data.id].rate = this._metricMap[targetNode.data.id].rate + 1)
           : (this._metricMap[targetNode.data.id].rate = 1);
@@ -81,14 +94,14 @@ class NodeTree {
       }
     }
 
-    if (target.response_time || source.response_time) {
+    if (target?.response_time || source?.response_time) {
       metrics.response_time =
-        (target.response_time ? target.response_time : 0) + (source.response_time ? source.response_time : 0);
+        (target?.response_time ? target?.response_time : 0) + (source?.response_time ? source?.response_time : 0);
       if (
-        target.response_time &&
-        source.response_time &&
-        !isNaN(target.response_time) &&
-        !isNaN(source.response_time)
+        target?.response_time &&
+        source?.response_time &&
+        !isNaN(target?.response_time || 0) &&
+        !isNaN(source?.response_time || 0)
       ) {
         this._metricMap[targetNode.data.id].response_time
           ? (this._metricMap[targetNode.data.id].response_time = this._metricMap[targetNode.data.id].response_time + 1)
@@ -100,10 +113,10 @@ class NodeTree {
       }
     }
 
-    if (target.success_rate || source.success_rate) {
+    if (target?.success_rate || source?.success_rate) {
       metrics.success_rate =
-        (target.success_rate ? target.success_rate : 0) + (source.success_rate ? source.success_rate : 0);
-      if (target.success_rate && source.success_rate && !isNaN(target.success_rate) && !isNaN(source.success_rate)) {
+        (target?.success_rate ? target?.success_rate : 0) + (source?.success_rate ? source?.success_rate : 0);
+      if (target?.success_rate && source?.success_rate && !isNaN(target?.success_rate || 0) && !isNaN(source?.success_rate || 0)) {
         this._metricMap[targetNode.data.id].success_rate
           ? (this._metricMap[targetNode.data.id].success_rate = this._metricMap[targetNode.data.id].success_rate + 1)
           : (this._metricMap[targetNode.data.id].success_rate = 1);
@@ -117,8 +130,8 @@ class NodeTree {
   }
 
   private _getObjectFromArray(array: NodeTreeElement[], id: string) {
-    for (var i = 0; i < array.length; i++) {
-      if (array[i].node.data.label === id) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i]?.node?.data.label === id) {
         return array[i];
       }
     }
@@ -126,10 +139,10 @@ class NodeTree {
   }
 
   private _addNode(nodeToAdd: NodeTreeElement, currentLayerNode: NodeTreeElement, currentLevel: number) {
-    const namespace = nodeToAdd.node.data.namespace;
+    const namespace = nodeToAdd.node?.data.namespace || [];
     const namespaceLength = namespace ? namespace.length : 0;
     if (namespaceLength === currentLevel) {
-      const possibleDuplicate = _.find(currentLayerNode.children, function (o) {
+      const possibleDuplicate = _.find(currentLayerNode.children, function(o) {
         return o.id === nodeToAdd.id;
       });
       if (possibleDuplicate) {
@@ -139,40 +152,46 @@ class NodeTree {
         currentLayerNode.children.push(nodeToAdd);
       }
     } else {
-      const nextLayerNode = this._getObjectFromArray(
-        currentLayerNode.children,
-        nodeToAdd.node.data.namespace[currentLevel]
-      );
-      if (nextLayerNode === undefined) {
-        const children: NodeTreeElement[] = [];
-        const newNode = {
-          id: nodeToAdd.node.data.namespace[currentLevel],
-          children: children,
-          node: {
-            data: {
-              id: nodeToAdd.node.data.namespace[currentLevel],
-              type: EnGraphNodeType.PARENT,
-              label: nodeToAdd.node.data.namespace[currentLevel],
-              parent: nodeToAdd.node.data.namespace[currentLevel - 1],
-              namespace: this._getNameSpaceFromCurrentLevel(nodeToAdd.node.data.namespace, currentLevel),
-              layer: currentLevel,
-              metrics: {},
-            },
-          },
-        };
-        currentLayerNode.children.push(newNode);
-        currentLevel++;
-        newNode.node.data.metrics = this._sumMetrics(nodeToAdd.node, newNode.node);
-        this._addNode(nodeToAdd, newNode, currentLevel);
-      } else {
-        const nextTopLayerNode = this._getObjectFromArray(
+      if (nodeToAdd.node !== undefined && nodeToAdd.node.data.namespace !== undefined) {
+        const nextLayerNode = this._getObjectFromArray(
           currentLayerNode.children,
           nodeToAdd.node.data.namespace[currentLevel]
         );
-        nextTopLayerNode.node.data.type = EnGraphNodeType.PARENT;
-        nextTopLayerNode.node.data.metrics = this._sumMetrics(nodeToAdd.node, nextTopLayerNode.node);
-        currentLevel++;
-        this._addNode(nodeToAdd, nextTopLayerNode, currentLevel);
+        if (nextLayerNode === undefined) {
+          const children: NodeTreeElement[] = [];
+          const newNode = {
+            id: nodeToAdd.node.data.namespace[currentLevel],
+            children: children,
+            node: {
+              data: {
+                id: nodeToAdd.node.data.namespace[currentLevel],
+                type: EnGraphNodeType.PARENT,
+                label: nodeToAdd.node.data.namespace[currentLevel],
+                parent: nodeToAdd.node.data.namespace[currentLevel - 1],
+                namespace: this._getNameSpaceFromCurrentLevel(nodeToAdd.node.data.namespace || [], currentLevel),
+                layer: currentLevel,
+                metrics: {},
+              },
+            },
+          };
+          currentLayerNode.children.push(newNode);
+          currentLevel++;
+          if (nodeToAdd.node !== undefined) {
+            newNode.node.data.metrics = this._sumMetrics(nodeToAdd.node, newNode.node);
+          }
+          this._addNode(nodeToAdd, newNode, currentLevel);
+        } else {
+          const nextTopLayerNode = this._getObjectFromArray(
+            currentLayerNode.children,
+            nodeToAdd.node.data.namespace[currentLevel]
+          );
+          if (nextTopLayerNode !== undefined && nextTopLayerNode.node !== undefined) {
+            nextTopLayerNode.node.data.type = EnGraphNodeType.PARENT;
+            nextTopLayerNode.node.data.metrics = this._sumMetrics(nodeToAdd.node, nextTopLayerNode.node);
+            currentLevel++;
+            this._addNode(nodeToAdd, nextTopLayerNode, currentLevel);
+          }
+        }
       }
     }
   }

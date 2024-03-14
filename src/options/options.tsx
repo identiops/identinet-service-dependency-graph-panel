@@ -13,6 +13,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       .addCustomEditor({
         path: 'dataMapping.aggregationType',
         id: 'aggregationType',
+        // @ts-ignore
         editor: TypeaheadTextField,
         name: 'Component Column',
         category: ['Connection Mapping'],
@@ -22,6 +23,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       .addCustomEditor({
         path: 'dataMapping.sourceColumn',
         id: 'sourceComponentPrefix',
+        // @ts-ignore
         editor: TypeaheadTextField,
         name: 'Source Component Column',
         category: ['Connection Mapping'],
@@ -33,6 +35,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'targetComponentPrefix',
         name: 'Target Component Column',
         category: ['Connection Mapping'],
+        // @ts-ignore
         editor: TypeaheadTextField,
         defaultValue: DefaultSettings.dataMapping.targetColumn,
       })
@@ -42,6 +45,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'namespaceColumn',
         name: 'Namespace Column',
         category: ['Connection Mapping'],
+        // @ts-ignore
         editor: TypeaheadTextField,
         defaultValue: DefaultSettings.dataMapping.namespaceColumn,
       })
@@ -51,6 +55,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'nameSpaceDelimiter',
         name: 'Namespace Delimiter',
         category: ['Connection Mapping'],
+        // @ts-ignore
         editor: TypeaheadTextField,
         defaultValue: DefaultSettings.dataMapping.namespaceDelimiter,
       })
@@ -60,6 +65,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'type',
         name: 'Type',
         category: ['Connection Mapping'],
+        // @ts-ignore
         editor: TypeaheadTextField,
         defaultValue: DefaultSettings.dataMapping.type,
       })
@@ -69,6 +75,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'externalOrigin',
         name: 'External Origin',
         category: ['Connection Mapping'],
+        // @ts-ignore
         editor: TypeaheadTextField,
         defaultValue: DefaultSettings.dataMapping.extOrigin,
       })
@@ -78,6 +85,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'externalTarget',
         name: 'External Target',
         category: ['Connection Mapping'],
+        // @ts-ignore
         editor: TypeaheadTextField,
         defaultValue: DefaultSettings.dataMapping.extTarget,
       })
@@ -87,6 +95,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'responseTime',
         path: 'dataMapping.responseTimeColumn',
         name: 'Response Time Column',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.responseTimeColumn,
@@ -96,6 +105,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'requestRateColumn',
         path: 'dataMapping.requestRateColumn',
         name: 'Request Rate Column',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.requestRateColumn,
@@ -105,6 +115,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'errorRateColumn',
         path: 'dataMapping.errorRateColumn',
         name: 'Error Rate Column',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.errorRateColumn,
@@ -114,6 +125,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'responseTimeOutgoingColumn',
         path: 'dataMapping.responseTimeOutgoingColumn',
         name: 'Response Time Column (Outgoing)',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.responseTimeOutgoingColumn,
@@ -123,6 +135,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'requestRateOutgoingColumn',
         path: 'dataMapping.requestRateOutgoingColumn',
         name: 'Request Rate Column (Outgoing)',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.requestRateOutgoingColumn,
@@ -132,6 +145,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'errorRateOutgoingColumn',
         path: 'dataMapping.errorRateOutgoingColumn',
         name: 'Error Rate Column (Outgoing)',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.errorRateOutgoingColumn,
@@ -141,6 +155,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         id: 'baselineRtUpper',
         path: 'dataMapping.baselineRtUpper',
         name: 'Response Time Baseline (Upper)',
+        // @ts-ignore
         editor: TypeaheadTextField,
         category: ['Data Mapping'],
         defaultValue: DefaultSettings.dataMapping.baselineRtUpper,
@@ -190,6 +205,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
         path: 'dataMapping',
         id: 'dummyDataSwitch',
         name: 'Show Dummy Data',
+        // @ts-ignore
         editor: DummyDataSwitch,
         category: ['General Settings'],
         defaultValue: DefaultSettings.dataMapping,
@@ -245,6 +261,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       .addCustomEditor({
         path: 'icons',
         id: 'iconMapping',
+        // @ts-ignore
         editor: IconMapping,
         name: '',
         description:
@@ -258,6 +275,7 @@ export const optionsBuilder = (builder: PanelOptionsEditorBuilder<PanelSettings>
       .addCustomEditor({
         path: 'externalIcons',
         id: 'externalIconMapping',
+        // @ts-ignore
         editor: IconMapping,
         name: '',
         description:

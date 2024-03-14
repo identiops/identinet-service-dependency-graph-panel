@@ -9,7 +9,7 @@ export default class ParticleEngine {
 
   minSpawnPropability = 0.004;
 
-  spawnInterval: NodeJS.Timeout;
+  spawnInterval: NodeJS.Timeout | undefined;
 
   animating: boolean;
 
@@ -35,7 +35,7 @@ export default class ParticleEngine {
     if (!that.animating) {
       if (!this.hasParticles()) {
         clearInterval(this.spawnInterval);
-        this.spawnInterval = null;
+        this.spawnInterval = undefined;
       }
     } else {
       that._spawnParticles();
@@ -59,7 +59,7 @@ export default class ParticleEngine {
     const cy = this.drawer.cytoscape;
 
     const now = Date.now();
-    cy.edges().forEach((edge) => {
+    cy.edges().forEach((edge: any) => {
       let particles: Particles = edge.data('particles');
       const metrics: IntGraphMetrics = edge.data('metrics');
 

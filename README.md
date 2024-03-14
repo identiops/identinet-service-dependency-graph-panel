@@ -31,7 +31,7 @@ source yet, the panels provides you some dummy data to play around with.
 
 The dummy data is basically a snapshot of multiple query results in the table
 format. You'll find its source
-[here](https://github.com/identiops/identinet-service-dependency-graph-panel/blob/master/src/dummy_data_frame.ts),
+[here](https://github.com/identiops/identinet-service-dependency-graph-panel/blob/main/src/dummy_data_frame.ts),
 in the panel's GitHub repository.
 
 Depending on the query result, the data provides the following tags:
@@ -122,7 +122,7 @@ as follows:
 Assuming the panel's settings are specified as seen in the screenshot, the panel
 will visualize the data as following:
 
-![Visualization of the minimal data table.](https://raw.githubusercontent.com/identops/identinet-service-dependency-graph-panel/master/src/img/data-example-1.png)
+![Visualization of the minimal data table.](https://raw.githubusercontent.com/identops/identinet-service-dependency-graph-panel/main/src/img/data-example-1.png)
 
 > Note: It is important to know that connections can only be generated if at
 > least one request-rate column (incoming or outgoing) is defined.
@@ -146,7 +146,7 @@ column will be handled as a sum of all response times - kind of a Prometheus
 style metric. This behavior can be changed by using the `Handle Timings as Sums`
 option. This table will result in the following visualization.
 
-![Visualization of a data table including request rate and response times.](https://raw.githubusercontent.com/identiops/identinet-service-dependency-graph-panel/master/src/img/data-example-2.png)
+![Visualization of a data table including request rate and response times.](https://raw.githubusercontent.com/identiops/identinet-service-dependency-graph-panel/main/src/img/data-example-2.png)
 
 ---
 
@@ -157,7 +157,7 @@ the drawn nodes. For this purpose the option 'Service Icon Mapping' can be used.
 Here you can specify an assignment of icons to certain name patterns. All nodes
 that match the specified pattern (regular expression) will get the icon.
 
-![Custom service icons in the graph.](https://raw.githubusercontent.com/identops/identinet-service-dependency-graph-panel/master/src/img/service-icons.png)
+![Custom service icons in the graph.](https://raw.githubusercontent.com/identops/identinet-service-dependency-graph-panel/main/src/img/service-icons.png)
 
 ##### Example
 

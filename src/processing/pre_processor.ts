@@ -21,8 +21,8 @@ class PreProcessor {
     } = this.controller.getSettings(true).dataMapping;
 
     const result = _.map(data, (dataObject) => {
-      var source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
-      var target = _.has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
+      let source = _.has(dataObject, sourceColumn) && dataObject[sourceColumn] !== '';
+      let target = _.has(dataObject, targetColumn) && dataObject[targetColumn] !== '';
       const extSource = _.has(dataObject, externalSource) && dataObject[externalSource] !== '';
       const extTarget = _.has(dataObject, externalTarget) && dataObject[externalTarget] !== '';
 
@@ -83,16 +83,16 @@ class PreProcessor {
     });
 
     const filteredResult: GraphDataElement[] = result.filter(
-      (element): element is GraphDataElement => element !== null
+      (element: any): element is GraphDataElement => element !== null
     );
     return filteredResult;
   }
 
   _mergeGraphData(data: GraphDataElement[]): GraphDataElement[] {
-    const groupedData = _.values(_.groupBy(data, (element) => element.source + '<--->' + element.target));
+    const groupedData = _.values(_.groupBy(data, (element: GraphDataElement) => element.source + '<--->' + element.target));
 
-    const mergedData = _.map(groupedData, (group) => {
-      return _.reduce(group, (result, next) => {
+    const mergedData: GraphDataElement[] = _.map(groupedData, (group: any) => {
+      return _.reduce(group, (result: any, next: any) => {
         return _.merge(result, next);
       });
     });
@@ -103,7 +103,7 @@ class PreProcessor {
   _cleanMetaData(columnMapping: any, metaData: any) {
     const result: any = {};
 
-    _.forOwn(columnMapping, (value, key) => {
+    _.forOwn(columnMapping, (value: any, key: any) => {
       if (_.has(metaData, value)) {
         result[key] = metaData[value];
       }
@@ -114,7 +114,7 @@ class PreProcessor {
 
   _extractColumnNames(data: GraphDataElement[]): string[] {
     const columnNames: string[] = _(data)
-      .flatMap((dataElement) => _.keys(dataElement.data))
+      .flatMap((dataElement: any) => _.keys(dataElement.data))
       .uniq()
       .sort()
       .value();
@@ -132,7 +132,7 @@ class PreProcessor {
   }
 
   _mergeSeries(series: any[]) {
-    var mergedSeries: any = undefined;
+    let mergedSeries: any = undefined;
     for (const seriesElement of series) {
       if (mergedSeries === undefined) {
         mergedSeries = seriesElement;
@@ -151,7 +151,7 @@ class PreProcessor {
   }
 
   _dataToRows(inputDataSets: any) {
-    var rows: any[] = [];
+    let rows: any[] = [];
 
     const {
       aggregationType,
@@ -232,7 +232,7 @@ class PreProcessor {
         return;
       }
     }
-    var resolvedObject: any = {
+    let resolvedObject: any = {
       data: row.data,
     };
     if (trueCount === 0) {
@@ -267,7 +267,7 @@ class PreProcessor {
   }
 
   _mergeObjects(rows: any[]) {
-    var mergedObjects: any[] = [];
+    let mergedObjects: any[] = [];
 
     for (const row of rows) {
       mergedObjects.push(row);

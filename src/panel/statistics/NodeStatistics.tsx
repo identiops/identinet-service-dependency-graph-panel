@@ -1,3 +1,4 @@
+// @ts-ignore
 import React from 'react';
 import { IntTableHeader } from '../../types';
 import { TableContent } from 'types';
@@ -37,7 +38,7 @@ function getStatisticsTable(noDataText: string, nodeList: TableContent[]) {
   }
 }
 
-export const NodeStatistics: React.FC<NodeStatisticsProps> = ({ nodeList, noDataText, title }) => {
+export const NodeStatistics: React.FC<NodeStatisticsProps> = ({ nodeList, noDataText, title }: NodeStatisticsProps) => {
   return (
     <div>
       <div className="secondHeader--selection">{title}</div>

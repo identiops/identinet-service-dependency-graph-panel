@@ -1,5 +1,7 @@
 import CanvasDrawer from 'panel/canvas/graph_canvas';
+// @ts-ignore
 import cytoscape, { EdgeCollection, EdgeSingular, ElementDefinition, NodeSingular } from 'cytoscape';
+// @ts-ignore
 import React, { PureComponent } from 'react';
 import { PanelController } from '../PanelController';
 import cyCanvas from 'cytoscape-canvas';
@@ -40,18 +42,22 @@ cytoscape.use(cola);
 
 export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState> {
   ref: any;
+  state: PanelState;
+  // @ts-ignore
+  props: PanelState;
 
-  selectionId: string;
+  selectionId = "";
 
-  currentType: string;
+  currentType = "";
 
+  // @ts-ignore
   selectionStatistics: IntSelectionStatistics;
 
-  receiving: TableContent[];
+  receiving: TableContent[] = [];
 
-  sending: TableContent[];
+  sending: TableContent[] = [];
 
-  resolvedDrillDownLink: string;
+  resolvedDrillDownLink = "";
 
   templateSrv: TemplateSrv;
 
@@ -60,7 +66,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   constructor(props: PanelState) {
     super(props);
 
-    var animateButtonClass = 'fa fa-play-circle';
+    let animateButtonClass = 'fa fa-play-circle';
     if (props.animate) {
       animateButtonClass = 'fa fa-pause-circle';
     }
@@ -113,7 +119,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
       wheelSensitivity: 0.125,
     });
 
-    var graphCanvas = new CanvasDrawer(
+    let graphCanvas = new CanvasDrawer(
       this,
       cy,
       cy.cyCanvas({
@@ -126,6 +132,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
     });
     cy.on('select', 'node', () => this.onSelectionChange());
     cy.on('unselect', 'node', () => this.onSelectionChange());
+    // @ts-ignore
     this.setState({
       cy: cy,
       graphCanvas: graphCanvas,
@@ -141,22 +148,22 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
     const cyNodes = this._transformNodes(graph.nodes);
     const cyEdges = this._transformEdges(graph.edges);
 
-    const nodes = this.state.cy.nodes().toArray();
+    const nodes = this.state.cy?.nodes().toArray() || [];
     const updatedNodes = this._updateOrRemove(nodes, cyNodes);
 
     // add new nodes
     this.state.cy.add(cyNodes);
 
-    const edges = this.state.cy.edges().toArray();
+    const edges = this.state.cy?.edges().toArray() || [];
     this._updateOrRemove(edges, cyEdges);
 
     // add new edges
-    this.state.cy.add(cyEdges);
+    this.state.cy?.add(cyEdges);
 
     if (this.initResize) {
       this.initResize = false;
-      this.state.cy.resize();
-      this.state.cy.reset();
+      this.state.cy?.resize();
+      this.state.cy?.reset();
       this.runLayout();
     } else {
       if (cyNodes.length > 0) {
@@ -166,7 +173,7 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
         this.runLayout(true);
       }
     }
-    this.state.graphCanvas.repaint(true);
+    this.state.graphCanvas?.repaint(true);
   }
 
   _transformNodes(nodes: IntGraphNode[]): ElementDefinition[] {
@@ -229,14 +236,16 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   onSelectionChange() {
-    const selection = this.state.cy.$(':selected');
+    const selection = this.state.cy?.$(':selected');
 
-    if (selection.length === 1) {
+    if (selection && selection.length === 1) {
       this.updateStatisticTable();
+      // @ts-ignore
       this.setState({
         showStatistics: true,
       });
     } else {
+      // @ts-ignore
       this.setState({
         showStatistics: false,
       });
@@ -248,14 +257,15 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
   }
 
   toggleAnimation() {
-    var newValue = !this.state.animate;
-    var animateButtonClass = 'fa fa-play-circle';
+    let newValue = !this.state.animate;
+    let animateButtonClass = 'fa fa-play-circle';
     if (newValue) {
-      this.state.graphCanvas.startAnimation();
+      this.state.graphCanvas?.startAnimation();
       animateButtonClass = 'fa fa-pause-circle';
     } else {
-      this.state.graphCanvas.stopAnimation();
+      this.state.graphCanvas?.stopAnimation();
     }
+    // @ts-ignore
     this.setState({
       animate: newValue,
       animateButtonClass: animateButtonClass,
@@ -267,51 +277,54 @@ export class ServiceDependencyGraph extends PureComponent<PanelState, PanelState
     const options = {
       ...layoutOptions,
 
-      stop: function () {
+      stop: function() {
         if (unlockNodes) {
           that.unlockNodes();
         }
+        // @ts-ignore
         that.setState({
-          zoom: that.state.cy.zoom(),
+          zoom: that.state.cy?.zoom(),
         });
       },
     };
 
-    this.state.cy.layout(options).run();
+    this.state.cy?.layout(options).run();
   }
 
   unlockNodes() {
-    this.state.cy.nodes().forEach((node: { unlock: () => void }) => {
+    this.state.cy?.nodes().forEach((node: { unlock: () => void }) => {
       node.unlock();
     });
   }
 
   fit() {
-    const selection = this.state.graphCanvas.selectionNeighborhood;
+    const selection = this.state.graphCanvas?.selectionNeighborhood;
     if (selection && !selection.empty()) {
-      this.state.cy.fit(selection, 30);
+      this.state.cy?.fit(selection, 30);
     } else {
-      this.state.cy.fit();
+      this.state.cy?.fit();
     }
+    // @ts-ignore
     this.setState({
-      zoom: this.state.cy.zoom(),
+      zoom: this.state.cy?.zoom(),
     });
   }
 
   zoom(zoom: number) {
     const zoomStep = 0.25 * zoom;
-    const zoomLevel = Math.max(0.1, this.state.zoom + zoomStep);
+    const zoomLevel = Math.max(0.1, (this.state.zoom || 0) + zoomStep);
+    // @ts-ignore
     this.setState({
       zoom: zoomLevel,
     });
-    this.state.cy.zoom(zoomLevel);
-    this.state.cy.center();
+    this.state.cy?.zoom(zoomLevel);
+    this.state.cy?.center();
   }
 
   updateStatisticTable() {
-    const selection = this.state.cy.$(':selected');
+    const selection = this.state.cy?.$(':selected');
 
-    if (selection.length === 1) {
+    if (selection && selection.length === 1) {
       const currentNode: NodeSingular = selection[0];
       this.selectionId = currentNode.id().toString();
       this.currentType = currentNode.data('type');

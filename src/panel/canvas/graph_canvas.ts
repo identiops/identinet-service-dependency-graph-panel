@@ -1,35 +1,36 @@
-import _ from 'lodash';
-import cytoscape from 'cytoscape';
-import { ServiceDependencyGraph } from '../serviceDependencyGraph/ServiceDependencyGraph';
-import ParticleEngine from './particle_engine';
+import _ from "lodash";
+// @ts-ignore
+import cytoscape from "cytoscape";
+import { ServiceDependencyGraph } from "../serviceDependencyGraph/ServiceDependencyGraph";
+import ParticleEngine from "./particle_engine";
 import {
   CyCanvas,
-  Particle,
-  EnGraphNodeType,
-  Particles,
-  IntGraphMetrics,
-  ScaleValue,
   DrawContext,
-  Rectangle,
+  EnGraphNodeType,
+  IntGraphMetrics,
+  Particle,
+  Particles,
   Point,
-} from '../../types';
-import humanFormat from 'human-format';
-import assetUtils from '../asset_utils';
-import CollisionDetector from './collision_detector';
+  Rectangle,
+  ScaleValue,
+} from "../../types";
+import humanFormat from "human-format";
+import assetUtils from "../asset_utils";
+import CollisionDetector from "./collision_detector";
 
 const scaleValues: ScaleValue[] = [
-  { unit: 'ms', factor: 1 },
-  { unit: 's', factor: 1000 },
-  { unit: 'm', factor: 60000 },
+  { unit: "ms", factor: 1 },
+  { unit: "s", factor: 1000 },
+  { unit: "m", factor: 60000 },
 ];
 
 export default class CanvasDrawer {
   readonly colors = {
-    default: '#bad5ed',
-    background: '#212121',
-    edge: '#505050',
+    default: "#bad5ed",
+    background: "#212121",
+    edge: "#505050",
     status: {
-      warning: 'orange',
+      warning: "orange",
     },
   };
 
@@ -39,6 +40,7 @@ export default class CanvasDrawer {
 
   cytoscape: cytoscape.Core;
 
+  // @ts-ignore
   context: CanvasRenderingContext2D;
 
   cyCanvas: CyCanvas;
@@ -47,18 +49,21 @@ export default class CanvasDrawer {
 
   offscreenCanvas: HTMLCanvasElement;
 
+  // @ts-ignore
   offscreenContext: CanvasRenderingContext2D;
 
   frameCounter = 0;
 
   fpsCounter = 0;
 
+  // @ts-ignore
   particleImage: HTMLImageElement;
 
   pixelRatio: number;
 
   imageAssets: any = {};
 
+  // @ts-ignore
   selectionNeighborhood: cytoscape.Collection;
 
   particleEngine: ParticleEngine;
@@ -69,7 +74,11 @@ export default class CanvasDrawer {
 
   dashAnimationOffset = 0;
 
-  constructor(ctrl: ServiceDependencyGraph, cy: cytoscape.Core, cyCanvas: CyCanvas) {
+  constructor(
+    ctrl: ServiceDependencyGraph,
+    cy: cytoscape.Core,
+    cyCanvas: CyCanvas,
+  ) {
     this.cytoscape = cy;
     this.cyCanvas = cyCanvas;
     this.controller = ctrl;
@@ -79,15 +88,20 @@ export default class CanvasDrawer {
     this.pixelRatio = window.devicePixelRatio || 1;
 
     this.canvas = cyCanvas.getCanvas();
-    const ctx = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext("2d");
     if (ctx) {
       this.context = ctx;
     } else {
-      console.error('Could not get 2d canvas context.');
+      console.error("Could not get 2d canvas context.");
     }
 
-    this.offscreenCanvas = document.createElement('canvas');
-    this.offscreenContext = this.offscreenCanvas.getContext('2d');
+    this.offscreenCanvas = document.createElement("canvas");
+    const osctx = this.offscreenCanvas.getContext("2d")
+    if (osctx) {
+      this.offscreenContext = osctx;
+    } else {
+      console.error("Could not get 2d canvas context.");
+    }
 
     this.repaint(true);
   }
@@ -129,7 +143,9 @@ export default class CanvasDrawer {
   }
 
   _isImageLoaded(assetName: string) {
-    if (_.has(this.imageAssets, assetName) && this.imageAssets[assetName].loaded) {
+    if (
+      _.has(this.imageAssets, assetName) && this.imageAssets[assetName].loaded
+    ) {
       return true;
     } else {
       return false;
@@ -139,7 +155,11 @@ export default class CanvasDrawer {
   _getImageAsset(assetName: string, resolveName = true) {
     if (!_.has(this.imageAssets, assetName)) {
       const { externalIcons } = this.controller.getSettings(true);
-      const assetUrl = assetUtils.getTypeSymbol(assetName, externalIcons, resolveName);
+      const assetUrl = assetUtils.getTypeSymbol(
+        assetName,
+        externalIcons,
+        resolveName,
+      );
       this._loadImage(assetUrl, assetName);
     }
 
@@ -164,7 +184,7 @@ export default class CanvasDrawer {
   }
 
   start() {
-    console.log('Starting graph logic');
+    console.log("Starting graph logic");
 
     const that = this;
     const repaintWrapper = () => {
@@ -222,7 +242,7 @@ export default class CanvasDrawer {
     this._setTransformation(offscreenContext);
 
     this.selectionNeighborhood = this.cytoscape.collection();
-    const selection = this.cytoscape.$(':selected');
+    const selection = this.cytoscape.$(":selected");
     selection.forEach((element: cytoscape.SingularElementArgument) => {
       this.selectionNeighborhood.merge(element);
 
@@ -271,8 +291,12 @@ export default class CanvasDrawer {
     const edges = this.cytoscape.edges().toArray();
     const hasSelection = this.selectionNeighborhood.size() > 0;
 
-    const transparentEdges = edges.filter((edge) => hasSelection && !this.selectionNeighborhood.has(edge));
-    const opaqueEdges = edges.filter((edge) => !hasSelection || this.selectionNeighborhood.has(edge));
+    const transparentEdges = edges.filter((edge: any) =>
+      hasSelection && !this.selectionNeighborhood.has(edge)
+    );
+    const opaqueEdges = edges.filter((edge: any) =>
+      !hasSelection || this.selectionNeighborhood.has(edge)
+    );
 
     ctx.globalAlpha = 0.25;
     this._drawEdges(ctx, transparentEdges, now);
@@ -281,7 +305,11 @@ export default class CanvasDrawer {
     ctx.restore();
   }
 
-  _drawEdges(ctx: CanvasRenderingContext2D, edges: cytoscape.EdgeSingular[], now: number) {
+  _drawEdges(
+    ctx: CanvasRenderingContext2D,
+    edges: cytoscape.EdgeSingular[],
+    now: number,
+  ) {
     const cy = this.cytoscape;
 
     for (const edge of edges) {
@@ -303,19 +331,22 @@ export default class CanvasDrawer {
     ctx: CanvasRenderingContext2D,
     edge: cytoscape.EdgeSingular,
     sourcePoint: cytoscape.Position,
-    targetPoint: cytoscape.Position
+    targetPoint: cytoscape.Position,
   ) {
     ctx.beginPath();
 
     ctx.moveTo(sourcePoint.x, sourcePoint.y);
     ctx.lineTo(targetPoint.x, targetPoint.y);
 
-    const metrics = edge.data('metrics');
-    const requestCount = _.get(metrics, 'normal', -1);
-    const errorCount = _.get(metrics, 'danger', -1);
+    const metrics = edge.data("metrics");
+    const requestCount = _.get(metrics, "normal", -1);
+    const errorCount = _.get(metrics, "danger", -1);
 
     let base;
-    if (!this.selectionNeighborhood.empty() && this.selectionNeighborhood.has(edge)) {
+    if (
+      !this.selectionNeighborhood.empty() &&
+      this.selectionNeighborhood.has(edge)
+    ) {
       ctx.lineWidth = 3;
       base = 140;
     } else {
@@ -329,9 +360,9 @@ export default class CanvasDrawer {
       const factor = errorCount / requestCount;
       const color = Math.min(255, base + range * Math.log2(factor + 1));
 
-      ctx.strokeStyle = 'rgb(' + color + ',' + base + ',' + base + ')';
+      ctx.strokeStyle = "rgb(" + color + "," + base + "," + base + ")";
     } else {
-      ctx.strokeStyle = 'rgb(' + base + ',' + base + ',' + base + ')';
+      ctx.strokeStyle = "rgb(" + base + "," + base + "," + base + ")";
     }
 
     ctx.stroke();
@@ -345,7 +376,7 @@ export default class CanvasDrawer {
     const yMid = midpoint.y;
 
     let statistics: string[] = [];
-    const metrics: IntGraphMetrics = edge.data('metrics');
+    const metrics: IntGraphMetrics = edge.data("metrics");
     const duration = _.defaultTo(metrics.response_time, -1);
     const requestCount = _.defaultTo(metrics.rate, -1);
     const errorCount = _.defaultTo(metrics.error_rate, -1);
@@ -358,15 +389,18 @@ export default class CanvasDrawer {
     }
     if (requestCount >= 0) {
       const decimals = requestCount >= 1000 ? 1 : 0;
-      statistics.push(humanFormat(parseFloat(requestCount.toString()), { decimals }) + ' Req.');
+      statistics.push(
+        humanFormat(parseFloat(requestCount.toString()), { decimals }) +
+        " Req.",
+      );
     }
     if (errorCount >= 0) {
       const decimals = errorCount >= 1000 ? 1 : 0;
-      statistics.push(humanFormat(errorCount, { decimals }) + ' Err.');
+      statistics.push(humanFormat(errorCount, { decimals }) + " Err.");
     }
 
     if (statistics.length > 0) {
-      const edgeLabel = statistics.join(', ');
+      const edgeLabel = statistics.join(", ");
       this._drawLabel(ctx, edgeLabel, xMid, yMid, edge);
     }
   }
@@ -376,9 +410,9 @@ export default class CanvasDrawer {
     edge: cytoscape.EdgeSingular,
     sourcePoint: cytoscape.Position,
     targetPoint: cytoscape.Position,
-    now: number
+    now: number,
   ) {
-    const particles: Particles = edge.data('particles');
+    const particles: Particles = edge.data("particles");
 
     if (particles === undefined) {
       return;
@@ -417,7 +451,7 @@ export default class CanvasDrawer {
       index--;
     }
 
-    ctx.fillStyle = '#d1e2f2';
+    ctx.fillStyle = "#d1e2f2";
     ctx.fill();
 
     // danger particles
@@ -434,14 +468,20 @@ export default class CanvasDrawer {
     ctx.fill();
   }
 
-  _drawLabel(ctx: CanvasRenderingContext2D, label: string, cX: number, cY: number, edge: cytoscape.EdgeSingular) {
+  _drawLabel(
+    ctx: CanvasRenderingContext2D,
+    label: string,
+    cX: number,
+    cY: number,
+    edge: cytoscape.EdgeSingular,
+  ) {
     const labelPadding = 1;
-    ctx.font = '6px Arial';
+    ctx.font = "6px Arial";
 
     const labelWidth = ctx.measureText(label).width;
-    var xPos = cX - labelWidth / 2;
-    var yPos = cY + 3;
-    var labelArea: Rectangle = {
+    let xPos = cX - labelWidth / 2;
+    let yPos = cY + 3;
+    let labelArea: Rectangle = {
       coordinates: {
         x: xPos - labelPadding + 4,
         y: yPos - 6 - labelPadding + 4,
@@ -450,30 +490,50 @@ export default class CanvasDrawer {
       height: 6,
     };
 
-    if (!isNaN(labelArea.coordinates.x) || !isNaN(labelArea.coordinates.y) || !isNaN(xPos) || !isNaN(yPos)) {
+    if (
+      !isNaN(labelArea.coordinates.x) || !isNaN(labelArea.coordinates.y) ||
+      !isNaN(xPos) || !isNaN(yPos)
+    ) {
       // TODO: Rather than using a fixed number here, we should find a way to compute a second boundary condition smarter.
       // This is for the case when all nodes are so close together the labels need to overlap each other.
       const maxRepeats = 1000;
-      var repeats = 0;
-      while (this.collisionDetector.isColliding(labelArea) && repeats < maxRepeats) {
+      let repeats = 0;
+      while (
+        this.collisionDetector.isColliding(labelArea) && repeats < maxRepeats
+      ) {
         const nextPoint = this._getNextPointOnVector(xPos, yPos, edge, 0.999);
         labelArea.coordinates = nextPoint;
         yPos = nextPoint.y;
         xPos = nextPoint.x;
         repeats++;
       }
-      this.collisionDetector.addRectangle(xPos - 4, yPos - 4, labelWidth + 12, 12);
+      this.collisionDetector.addRectangle(
+        xPos - 4,
+        yPos - 4,
+        labelWidth + 12,
+        12,
+      );
     }
 
     ctx.fillStyle = this.colors.default;
-    ctx.fillRect(xPos - labelPadding, yPos - 6 - labelPadding, labelWidth + 2 * labelPadding, 6 + 2 * labelPadding);
+    ctx.fillRect(
+      xPos - labelPadding,
+      yPos - 6 - labelPadding,
+      labelWidth + 2 * labelPadding,
+      6 + 2 * labelPadding,
+    );
     ctx.fillStyle = this.colors.background;
     ctx.fillText(label, xPos, yPos);
   }
 
-  _getNextPointOnVector(x: number, y: number, edge: cytoscape.EdgeSingular, step: number) {
-    var yTarget = edge.sourceEndpoint().y;
-    var xTarget = edge.sourceEndpoint().x;
+  _getNextPointOnVector(
+    x: number,
+    y: number,
+    edge: cytoscape.EdgeSingular,
+    step: number,
+  ) {
+    let yTarget = edge.sourceEndpoint().y;
+    let xTarget = edge.sourceEndpoint().x;
 
     const newPoint: Point = {
       x: xTarget * (1.0 - step) + x * step,
@@ -484,7 +544,17 @@ export default class CanvasDrawer {
   }
 
   _drawParticle(drawCtx: DrawContext, particles: Particle[], index: number) {
-    const { ctx, now, xDirection, yDirection, xMinLimit, xMaxLimit, yMinLimit, yMaxLimit, sourcePoint } = drawCtx;
+    const {
+      ctx,
+      now,
+      xDirection,
+      yDirection,
+      xMinLimit,
+      xMaxLimit,
+      yMinLimit,
+      yMaxLimit,
+      sourcePoint,
+    } = drawCtx;
 
     const particle = particles[index];
 
@@ -492,7 +562,10 @@ export default class CanvasDrawer {
     const xPos = sourcePoint.x + xDirection * timeDelta * particle.velocity;
     const yPos = sourcePoint.y + yDirection * timeDelta * particle.velocity;
 
-    if (xPos > xMaxLimit || xPos < xMinLimit || yPos > yMaxLimit || yPos < yMinLimit) {
+    if (
+      xPos > xMaxLimit || xPos < xMinLimit || yPos > yMaxLimit ||
+      yPos < yMinLimit
+    ) {
       // remove particle
       particles.splice(index, 1);
     } else {
@@ -510,16 +583,20 @@ export default class CanvasDrawer {
     const nodes = cy.nodes().toArray();
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
-      if (that.selectionNeighborhood.empty() || that.selectionNeighborhood.has(node)) {
+      if (
+        that.selectionNeighborhood.empty() ||
+        that.selectionNeighborhood.has(node)
+      ) {
         ctx.globalAlpha = 1;
       } else {
         ctx.globalAlpha = 0.25;
       }
 
       // draw the node
-      if (node.data().type === 'PARENT') {
+      if (node.data().type === "PARENT") {
         if (
-          node.data().layer >= this.controller.state.controller.state.currentLayer ||
+          node.data().layer >=
+          this.controller.state.controller.state.currentLayer ||
           node.data().layer === undefined
         ) {
           that._drawNode(ctx, node);
@@ -537,8 +614,8 @@ export default class CanvasDrawer {
 
   _drawNode(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
     const cy = this.cytoscape;
-    const type = node.data('type');
-    const metrics: IntGraphMetrics = node.data('metrics');
+    const type = node.data("type");
+    const metrics: IntGraphMetrics = node.data("metrics");
 
     if (type === EnGraphNodeType.INTERNAL) {
       const requestCount = _.defaultTo(metrics.rate, -1);
@@ -546,9 +623,9 @@ export default class CanvasDrawer {
       const responseTime = _.defaultTo(metrics.response_time, -1);
       const threshold = _.defaultTo(metrics.threshold, -1);
 
-      var unknownPct;
-      var errorPct;
-      var healthyPct;
+      let unknownPct;
+      let errorPct;
+      let healthyPct;
       if (requestCount < 0) {
         healthyPct = 0;
         errorPct = 0;
@@ -564,7 +641,11 @@ export default class CanvasDrawer {
       }
 
       // drawing the donut
-      this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]);
+      this._drawDonut(ctx, node, 15, 5, 0.5, [
+        errorPct,
+        unknownPct,
+        healthyPct,
+      ]);
 
       // drawing the baseline status
       const { showBaselines } = this.controller.getSettings(true);
@@ -584,7 +665,10 @@ export default class CanvasDrawer {
     }
   }
 
-  _drawServiceIcon(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+  _drawServiceIcon(
+    ctx: CanvasRenderingContext2D,
+    node: cytoscape.NodeSingular,
+  ) {
     const nodeId: string = node.id();
     const iconMappings = this.controller.getSettings(true).icons;
 
@@ -597,22 +681,31 @@ export default class CanvasDrawer {
     });
 
     if (mapping) {
-      const image = this._getAsset(mapping.filename, mapping.filename + '.png');
+      const image = this._getAsset(mapping.filename, mapping.filename + ".png");
       if (image != null) {
         const cX = node.position().x;
         const cY = node.position().y;
         const iconSize = 16;
 
-        ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
+        ctx.drawImage(
+          image,
+          cX - iconSize / 2,
+          cY - iconSize / 2,
+          iconSize,
+          iconSize,
+        );
       }
     }
   }
 
-  _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+  _drawNodeStatistics(
+    ctx: CanvasRenderingContext2D,
+    node: cytoscape.NodeSingular,
+  ) {
     const { timeFormat } = this.controller.getSettings(true);
     const lines: string[] = [];
 
-    const metrics: IntGraphMetrics = node.data('metrics');
+    const metrics: IntGraphMetrics = node.data("metrics");
     const requestCount = _.defaultTo(metrics.rate, -1);
     const errorCount = _.defaultTo(metrics.error_rate, -1);
     const responseTime = _.defaultTo(metrics.response_time, -1);
@@ -621,16 +714,22 @@ export default class CanvasDrawer {
 
     if (requestCount >= 0) {
       const decimals = requestCount >= 1000 ? 1 : 0;
-      lines.push('Requests: ' + humanFormat(parseFloat(requestCount.toString()), { decimals }));
+      lines.push(
+        "Requests: " +
+        humanFormat(parseFloat(requestCount.toString()), { decimals }),
+      );
     }
     if (errorCount >= 0) {
       const decimals = errorCount >= 1000 ? 1 : 0;
-      lines.push('Errors: ' + humanFormat(errorCount, { decimals }));
+      lines.push("Errors: " + humanFormat(errorCount, { decimals }));
     }
     if (responseTime >= 0) {
       const decimals = responseTime >= 1000 ? 1 : 0;
 
-      lines.push('Avg. Resp. Time: ' + humanFormat(responseTime, { scale: timeScale, decimals }));
+      lines.push(
+        "Avg. Resp. Time: " +
+        humanFormat(responseTime, { scale: timeScale, decimals }),
+      );
     }
 
     const pos = node.position();
@@ -638,7 +737,7 @@ export default class CanvasDrawer {
     const cX = pos.x + this.donutRadius * 1.25;
     const cY = pos.y + fontSize / 2 - (fontSize / 2) * (lines.length - 1);
 
-    ctx.font = '6px Arial';
+    ctx.font = "6px Arial";
     ctx.fillStyle = this.colors.default;
     for (let i = 0; i < lines.length; i++) {
       ctx.fillText(lines[i], cX, cY + i * fontSize);
@@ -651,7 +750,7 @@ export default class CanvasDrawer {
     violation: boolean,
     radius: number,
     width: number,
-    baseStrokeWidth: number
+    baseStrokeWidth: number,
   ) {
     const pos = node.position();
     const cX = pos.x;
@@ -665,7 +764,7 @@ export default class CanvasDrawer {
     ctx.closePath();
     ctx.setLineDash([]);
     ctx.lineWidth = strokeWidth * 1;
-    ctx.strokeStyle = 'white';
+    ctx.strokeStyle = "white";
     ctx.stroke();
 
     ctx.beginPath();
@@ -679,7 +778,7 @@ export default class CanvasDrawer {
       ctx.lineDashOffset = 0;
     }
     ctx.lineWidth = strokeWidth;
-    ctx.strokeStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
+    ctx.strokeStyle = violation ? "rgb(184, 36, 36)" : "#37872d";
 
     ctx.stroke();
 
@@ -687,11 +786,14 @@ export default class CanvasDrawer {
     ctx.beginPath();
     ctx.arc(cX, cY, radius - width - baseStrokeWidth, 0, 2 * Math.PI, false);
     ctx.closePath();
-    ctx.fillStyle = violation ? 'rgb(184, 36, 36)' : '#37872d';
+    ctx.fillStyle = violation ? "rgb(184, 36, 36)" : "#37872d";
     ctx.fill();
   }
 
-  _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+  _drawExternalService(
+    ctx: CanvasRenderingContext2D,
+    node: cytoscape.NodeSingular,
+  ) {
     const pos = node.position();
     const cX = pos.x;
     const cY = pos.y;
@@ -699,7 +801,7 @@ export default class CanvasDrawer {
 
     ctx.beginPath();
     ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
     ctx.fill();
 
     ctx.beginPath();
@@ -707,7 +809,7 @@ export default class CanvasDrawer {
     ctx.fillStyle = this.colors.background;
     ctx.fill();
 
-    const nodeType = node.data('external_type');
+    const nodeType = node.data("external_type");
 
     const image = this._getImageAsset(nodeType);
     if (image != null) {
@@ -720,37 +822,52 @@ export default class CanvasDrawer {
     let label: string = node.id();
     const labelPadding = 1;
 
-    if (this.selectionNeighborhood.empty() || !this.selectionNeighborhood.has(node)) {
+    if (
+      this.selectionNeighborhood.empty() ||
+      !this.selectionNeighborhood.has(node)
+    ) {
       if (label.length > 20) {
-        label = label.substr(0, 7) + '...' + label.slice(-7);
+        label = label.substring(0, 7) + "..." + label.slice(-7);
       }
     }
 
-    ctx.font = '6px Arial';
+    ctx.font = "6px Arial";
 
     const labelWidth = ctx.measureText(label).width;
     const xPos = pos.x - labelWidth / 2;
-    var yPos = pos.y + node.height() * 0.8;
+    let yPos = pos.y + node.height() * 0.8;
 
-    if (node.data().type === 'PARENT') {
-      if (node.data().layer >= this.controller.state.controller.state.currentLayer || node.data().layer === undefined) {
+    if (node.data().type === "PARENT") {
+      if (
+        node.data().layer >=
+        this.controller.state.controller.state.currentLayer ||
+        node.data().layer === undefined
+      ) {
       } else {
         yPos = pos.y + node.height() * 0.5 + 30;
       }
     }
 
     const { showBaselines } = this.controller.getSettings(true);
-    const metrics: IntGraphMetrics = node.data('metrics');
+    const metrics: IntGraphMetrics = node.data("metrics");
     const responseTime = _.defaultTo(metrics.response_time, -1);
     const threshold = _.defaultTo(metrics.threshold, -1);
 
-    if (!showBaselines || threshold < 0 || responseTime < 0 || responseTime <= threshold) {
+    if (
+      !showBaselines || threshold < 0 || responseTime < 0 ||
+      responseTime <= threshold
+    ) {
       ctx.fillStyle = this.colors.default;
     } else {
-      ctx.fillStyle = '#FF7383';
+      ctx.fillStyle = "#FF7383";
     }
 
-    ctx.fillRect(xPos - labelPadding, yPos - 6 - labelPadding, labelWidth + 2 * labelPadding, 6 + 2 * labelPadding);
+    ctx.fillRect(
+      xPos - labelPadding,
+      yPos - 6 - labelPadding,
+      labelWidth + 2 * labelPadding,
+      6 + 2 * labelPadding,
+    );
 
     ctx.fillStyle = this.colors.background;
     ctx.fillText(label, xPos, yPos);
@@ -761,10 +878,10 @@ export default class CanvasDrawer {
 
     this.frameCounter++;
 
-    ctx.font = '12px monospace';
-    ctx.fillStyle = 'white';
-    ctx.fillText('Frames per Second: ' + this.fpsCounter, 10, 12);
-    ctx.fillText('Particles: ' + this.particleEngine.count(), 10, 24);
+    ctx.font = "12px monospace";
+    ctx.fillStyle = "white";
+    ctx.fillText("Frames per Second: " + this.fpsCounter, 10, 12);
+    ctx.fillText("Particles: " + this.particleEngine.count(), 10, 24);
   }
 
   _drawDonut(
@@ -773,7 +890,7 @@ export default class CanvasDrawer {
     radius: number,
     width: number,
     strokeWidth: number,
-    percentages: number[]
+    percentages: number[],
   ) {
     const cX = node.position().x;
     const cY = node.position().y;
@@ -782,26 +899,35 @@ export default class CanvasDrawer {
     ctx.beginPath();
     ctx.arc(cX, cY, radius + strokeWidth, 0, 2 * Math.PI, false);
     ctx.closePath();
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
     ctx.fill();
 
-    const { healthyColor, dangerColor, noDataColor } = this.controller.getSettings(true).style;
+    const { healthyColor, dangerColor, noDataColor } =
+      this.controller.getSettings(true).style;
     const colors = [dangerColor, noDataColor, healthyColor];
     for (let i = 0; i < percentages.length; i++) {
-      let arc = this._drawArc(ctx, currentArc, cX, cY, radius, percentages[i], colors[i]);
+      let arc = this._drawArc(
+        ctx,
+        currentArc,
+        cX,
+        cY,
+        radius,
+        percentages[i],
+        colors[i],
+      );
       currentArc += arc;
     }
 
     ctx.beginPath();
     ctx.arc(cX, cY, radius - width, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
     ctx.fill();
 
     // cut out an inner-circle == donut
     ctx.beginPath();
     ctx.arc(cX, cY, radius - width - strokeWidth, 0, 2 * Math.PI, false);
     if (node.selected()) {
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = "white";
     } else {
       ctx.fillStyle = this.colors.background;
     }
@@ -815,10 +941,10 @@ export default class CanvasDrawer {
     cY: number,
     radius: number,
     percent: number,
-    color: string
+    color: string,
   ) {
     // calc size of our wedge in radians
-    var WedgeInRadians = (percent * 360 * Math.PI) / 180;
+    let WedgeInRadians = (percent * 360 * Math.PI) / 180;
     // draw the wedge
     ctx.save();
     ctx.beginPath();
