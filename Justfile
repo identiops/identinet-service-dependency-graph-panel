@@ -63,4 +63,4 @@ release LEVEL="patch":
     sha256sum $archive | save $"($archive).sha256sum"
     sha1sum $archive | save $"($archive).sha1sum"
     md5sum $archive | save $"($archive).md5sum"
-    git cliff --strip all --current | gh release create -F - $new_version $archive $"($archive).sha256sum" $"($archive).sha1sum" $"($archive).md5sum"
+    git cliff --strip all --current | gh release create -F - $"v($new_version)" $archive $"($archive).sha256sum" $"($archive).sha1sum" $"($archive).md5sum"
