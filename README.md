@@ -122,7 +122,7 @@ as follows:
 Assuming the panel's settings are specified as seen in the screenshot, the panel
 will visualize the data as following:
 
-![Visualization of the minimal data table.](https://raw.githubusercontent.com/identops/identinet-service-dependency-graph-panel/main/src/img/data-example-1.png)
+![Visualization of the minimal data table.](https://raw.githubusercontent.com/identiops/identinet-service-dependency-graph-panel/main/src/img/data-example-1.png)
 
 > Note: It is important to know that connections can only be generated if at
 > least one request-rate column (incoming or outgoing) is defined.
@@ -157,7 +157,7 @@ the drawn nodes. For this purpose the option 'Service Icon Mapping' can be used.
 Here you can specify an assignment of icons to certain name patterns. All nodes
 that match the specified pattern (regular expression) will get the icon.
 
-![Custom service icons in the graph.](https://raw.githubusercontent.com/identops/identinet-service-dependency-graph-panel/main/src/img/service-icons.png)
+![Custom service icons in the graph.](https://raw.githubusercontent.com/identiops/identinet-service-dependency-graph-panel/main/src/img/service-icons.png)
 
 ##### Example
 
