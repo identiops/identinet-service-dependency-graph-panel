@@ -53,6 +53,7 @@ release LEVEL="patch":
     just build-prod
     git add package.json
     git add src/plugin.json
+    git add provisioning/dashboards/dashboard.json
     git cliff -t $new_version -o CHANGELOG.md
     git add CHANGELOG.md
     git commit -m $"Bump version to ($new_version)"
