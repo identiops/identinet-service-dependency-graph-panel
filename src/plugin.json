@@ -3,20 +3,31 @@
   "type": "panel",
   "name": "Service Dependency Graph",
   "id": "identinet-sdg-panel",
-  "info": {
-    "version": "1.1.0",
+  "info":
+  {
+    "version": "1.2.0",
     "updated": "2024-03-07",
     "description": "Service Dependency Graph panel for Grafana. Shows metric-based, dynamic dependency graph between services, indicates responsetime, load and error rate statistic for individual services and communication edges. Shows communication to external services, such as Web calls, database calls, message queues, LDAP calls, etc. Provides a details dialog for each selected service that shows statistics about incoming and outgoing traffic.",
-    "author": {
+    "author":
+    {
       "name": "identinet GmbH",
       "url": "https://www.identinet.io/"
     },
-    "keywords": ["panel", "grafana", "plugin", "service-dependency-graph", "topology"],
-    "logos": {
+    "keywords":
+    [
+      "panel",
+      "grafana",
+      "plugin",
+      "service-dependency-graph",
+      "topology"
+    ],
+    "logos":
+    {
       "small": "img/novatec_sdg_panel_logo.svg",
       "large": "img/novatec_sdg_panel_logo.svg"
     },
-    "links": [
+    "links":
+    [
       {
         "name": "Project site",
         "url": "https://github.com/identiops/identinet-service-dependency-graph-panel.git"
@@ -26,14 +37,16 @@
         "url": "https://github.com/identiops/identinet-service-dependency-graph-panel/blob/main/LICENSE"
       }
     ],
-    "screenshots": [
+    "screenshots":
+    [
       {
         "name": "Showcase",
         "path": "img/data-example-1.png"
       }
     ]
   },
-  "dependencies": {
+  "dependencies":
+  {
     "grafanaDependency": ">=10.3.3",
     "plugins": []
   }
