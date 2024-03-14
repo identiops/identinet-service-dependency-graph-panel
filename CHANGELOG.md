@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2024-03-14
+
+### Bug Fixes
+
+- Correct links in readme
+- Add dashboard.json to git release
+
+### Miscellaneous Tasks
+
+- Prefix github release version with v
+
 ## [1.2.0] - 2024-03-14
 
 ### Miscellaneous Tasks

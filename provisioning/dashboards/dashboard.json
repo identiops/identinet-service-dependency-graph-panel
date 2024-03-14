@@ -1,9 +1,12 @@
 {
-  "annotations": {
-    "list": [
+  "annotations":
+  {
+    "list":
+    [
       {
         "builtIn": 1,
-        "datasource": {
+        "datasource":
+        {
           "type": "grafana",
           "uid": "-- Grafana --"
         },
@@ -21,21 +24,26 @@
   "id": 1,
   "links": [],
   "liveNow": false,
-  "panels": [
+  "panels":
+  [
     {
-      "datasource": {
+      "datasource":
+      {
         "type": "datasource",
         "uid": "grafana"
       },
-      "gridPos": {
+      "gridPos":
+      {
         "h": 21,
         "w": 16,
         "x": 0,
         "y": 0
       },
       "id": 2,
-      "options": {
-        "dataMapping": {
+      "options":
+      {
+        "dataMapping":
+        {
           "aggregationType": "service",
           "baselineRtUpper": "threshold",
           "errorRateColumn": "error_in",
@@ -52,7 +60,8 @@
           "type": "protocol"
         },
         "drillDownLink": "",
-        "externalIcons": [
+        "externalIcons":
+        [
           {
             "filename": "web",
             "pattern": "web"
@@ -71,7 +80,8 @@
           }
         ],
         "filterEmptyConnections": true,
-        "icons": [
+        "icons":
+        [
           {
             "filename": "java",
             "pattern": "java"
@@ -84,7 +94,8 @@
         "showBaselines": false,
         "showConnectionStats": true,
         "showDebugInformation": false,
-        "style": {
+        "style":
+        {
           "dangerColor": "rgb(196, 22, 42)",
           "healthyColor": "rgb(87, 148, 242)",
           "noDataColor": "rgb(123, 123, 138)"
@@ -92,7 +103,7 @@
         "sumTimings": true,
         "timeFormat": "m"
       },
-      "pluginVersion": "1.0.0",
+      "pluginVersion": "1.2.1",
       "title": "Panel Title",
       "type": "identinet-sdg-panel"
     }
@@ -101,10 +112,12 @@
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
-  "templating": {
+  "templating":
+  {
     "list": []
   },
-  "time": {
+  "time":
+  {
     "from": "now-6h",
     "to": "now"
   },
